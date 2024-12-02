@@ -1,0 +1,147 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Feedback Motion Maestro</title>
+<style>
+@import url('https://fonts.googleapis.com/css?family=Montserrat&display=swap');
+
+* {
+  box-sizing: border-box;
+}
+
+body {
+    background: #3C91E6;
+    background: -webkit-linear-gradient(to right, #8f94fb, #4e54c8);
+    background: linear-gradient(to right, #8f94fb, #4e54c8);
+    font-family: 'Montserrat', sans-serif;
+    overflow: hidden;
+    height:100vh;
+}
+
+.panel-container {
+  background-color: #12192c;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.3);
+  border-radius: 15px;
+  font-size: 90%;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+  padding: 30px;
+  max-width: 400px;
+  color:#fbfbfce0;
+  margin:10% auto 2% auto;
+  display: flex;
+  flex-direction: column;
+}
+
+.panel-container strong {
+  line-height: 20px;
+  display: block;
+}
+
+.emojis {
+  width: 400px;
+  margin: 20px;
+}
+
+.btn {
+  background-color: #8f94fb;
+  color: #000;
+  border: 0;
+  border-radius: 4px;
+  padding: 12px 30px;
+  cursor: pointer;
+}
+
+.btn:focus {
+  outline: 0;
+}
+
+.btn:active {
+  transform: scale(0.98);
+}
+
+.credit a{
+    text-decoration: none;
+    color: #fff;
+}
+
+
+/* Hide the default radio button */
+input[type="radio"] {
+  display: none;
+}
+
+/* Style for the label containing the image */
+label {
+  display: inline-block;
+  width: 100px; /* Adjust width according to your image */
+  height: 100px; /* Adjust height according to your image */
+  background-size: cover;
+  background-position: center;
+  cursor: pointer;
+  border-radius: 50%; /* To make it circular */
+  border: 2px solid transparent; /* Add border for visual feedback */
+}
+
+/* Style for when radio button is checked */
+input[type="radio"]:checked + label {
+    border-width: 5px;
+  border-color: #4e54c8; /* Change border color when checked */
+}
+
+/* Optional: Add margin or padding to space out the radio buttons */
+label {
+  margin-right: 10px;
+}
+</style>
+</head>
+<body>
+  <form method="post">
+     {% csrf_token %}
+<div id="panel" class="panel-container">
+    <strong><b>"Feedback is like breakfast of Champions"</b></strong> <br/>Kindly feed us with your gaming experience with Motion Maestro !</strong>
+  <div class="emojis">
+    <input type="radio" id="radio1" name="rating" value="unsatisfied">
+    <label for="radio1" name="unsatisfied" style="background-image: url('/static/unsatisfied.jpg');"></label>
+
+    <input type="radio" id="radio2" name="rating" value="neutral">
+    <label for="radio2" name="neutral" style="background-image: url('/static/neutral.jpg');"></label>
+
+    <input type="radio" id="radio3" name="rating" value="satisfied">
+    <label for="radio3" name="satisfied" style="background-image: url('/static/happy.jpg');"></label>
+  </div>
+<button class="btn" id="send">Send Review</button>
+</div>
+<input type="hidden" id="selectedValue" name="selectedRating" readonly style="margin-top: 20px;">
+  </form>
+<script>
+
+
+    // Check if a radio button is selected
+    const btn=document.getElementById("send")
+    btn.addEventListener('click', (e) =>{
+        const selectedRadioButton = document.querySelector('input[name="rating"]:checked');
+        const selectedValueField = document.getElementById('selectedValue');
+        if (selectedRadioButton) {
+        // Get the value of the selected radio button
+        const selectedValue = selectedRadioButton.value;
+        selectedValueField.value = selectedValue; // Update the input field value
+        console.log("Selected value:", selectedValue);
+        alert("Thank you for the feedback. We'll use your feedback to improve your gaming experience ");
+        setTimeout(function () {
+            console.log("Redirecting to /index");
+            window.location.replace("/index");
+        }, 1000);
+
+        } else {
+            console.log("No radio button selected.");
+        }
+    });
+</script>
+</body>
+</html>
